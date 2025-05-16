@@ -1,34 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import {
   motion,
   AnimatePresence,
   useMotionValueEvent,
   useScroll,
 } from "motion/react";
-import { useTheme } from "next-themes";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import Logo from "./logo";
+import ThemeToggleButton from "./theme-toggle";
 
 const navItems = [
-  { label: "About", href: "#about" },
+  { label: "About", href: "/about" },
   { label: "Projects", href: "/projects" },
-  { label: "Skills", href: "#skills" },
+  { label: "Skills", href: "/#skills" },
   { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(true);
   const { scrollY } = useScroll();
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 0);
@@ -37,25 +32,12 @@ export default function Header() {
   return (
     <header
       className={`sticky ${
-        isScrolled ? "top-3 border rounded-lg max-w-6xl mx-auto" : "top-0"
+        isScrolled ? "top-3 border rounded-lg max-w-5xl mx-auto" : "top-0 max-w-6xl mx-auto"
       } px-10 z-50 w-full backdrop-blur bg-background/60 duration-300 easeInOut`}
     >
-      <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
+      <div className="px-4 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            className="rounded-full p-1 bg-primary text-white shadow-lg"
-          >
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              className="text-lg font-bold px-2 py-1"
-            >
-              ak
-            </motion.div>
-          </motion.div>
-        </Link>
-
+        <Logo />
         {/* Desktop Nav */}
         <nav
           onMouseLeave={() => setHoveredIndex(null)}
@@ -84,17 +66,7 @@ export default function Header() {
         {/* Right Controls */}
         <div className="flex items-center space-x-4">
           {/* Theme Toggle */}
-          <motion.button
-            onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-muted transition-colors"
-            whileTap={{ rotate: 90, scale: 0.9 }}
-          >
-            {theme === "dark" ? (
-              <Moon className="h-5 w-5" />
-            ) : (
-              <Sun className="h-5 w-5" />
-            )}
-          </motion.button>
+          <ThemeToggleButton/>  
 
           {/* Mobile Menu Toggle */}
           <button
@@ -120,8 +92,11 @@ export default function Header() {
             className="md:hidden overflow-hidden bg-background/80 backdrop-blur-md border-t border-border/40"
           >
             <div className="flex flex-col space-y-2 px-4 py-4">
-              {navItems.map((item) => (
+              {navItems.map((item, index) => (
                 <motion.a
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                   key={item.href}
                   href={item.href}
                   className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
