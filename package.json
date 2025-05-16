@@ -50,6 +50,7 @@
     "framer-motion": "latest",
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
+    "motion": "^12.12.1",
     "next": "15.1.0",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "latest",
