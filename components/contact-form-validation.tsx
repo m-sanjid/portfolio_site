@@ -49,9 +49,10 @@ export default function ContactFormValidation() {
     },
   });
 
-  // Calculate form completion progress
+  const formValues = form.watch();
+
   useEffect(() => {
-    const { name, email, subject, message } = form.watch();
+    const { name, email, subject, message } = formValues;
     const fields = [
       { value: name, isValid: name.length >= 2 },
       { value: email, isValid: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) },
@@ -61,7 +62,7 @@ export default function ContactFormValidation() {
 
     const filledFields = fields.filter((field) => field.isValid).length;
     setFormProgress((filledFields / fields.length) * 100);
-  }, [form.watch()]);
+  }, [formValues]);
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);

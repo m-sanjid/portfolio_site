@@ -3,14 +3,14 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { motion, AnimatePresence, useInView } from "framer-motion"
-import { Github, ExternalLink, ArrowRight, X, Search, Info } from "lucide-react"
+import { motion, AnimatePresence, useInView } from "motion/react"
+import { Github, ExternalLink, ArrowRight, X, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
-const projects = [
+const projects: Project[] = [
   {
     id: 1,
     title: "E-Commerce Platform",
@@ -336,17 +336,17 @@ export default function Projects() {
                   {filteredProjects.map((project, index) => (
                     <motion.div
                       layout
-                      key={project.id}
+                      key={index}
                       variants={projectVariants}
                       className="group relative"
-                      onMouseEnter={() => setHoveredProject(project.id)}
+                      onMouseEnter={() => setHoveredProject(index)}
                       onMouseLeave={() => setHoveredProject(null)}
                       whileHover={{ y: -5, transition: { duration: 0.2 } }}
                     >
                       <motion.div 
                         className={cn(
                           "bg-card rounded-lg overflow-hidden border transition-all duration-500",
-                          hoveredProject === project.id 
+                          hoveredProject === index 
                             ? "border-primary shadow-lg shadow-primary/10" 
                             : "border-border/40 shadow-sm"
                         )}
@@ -433,7 +433,7 @@ export default function Projects() {
                                 key={tag}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                onClick={(e) => {
+                                onClick={(e: React.MouseEvent) => {
                                   e.stopPropagation();
                                   handleTagClick(tag);
                                 }}

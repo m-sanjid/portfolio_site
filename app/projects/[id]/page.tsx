@@ -1,15 +1,13 @@
 "use client"
 
-import { useParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { motion } from "framer-motion"
-import { Github, ExternalLink, ArrowLeft, Calendar, Tag } from "lucide-react"
+import { motion } from "motion/react"
+import { Github, ExternalLink, ArrowLeft, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { projectDetails } from "@/lib/constants"
 
 export default function ProjectDetailsPage() {
-  const params = useParams()
   const project = projectDetails
 
   return (

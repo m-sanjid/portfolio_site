@@ -67,11 +67,11 @@ export default function Contact() {
             Contact Me
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 mb-4">
-            Let's Work Together
+            Let&apos;s Work Together
           </h2>
           <p className="text-base text-muted-foreground max-w-2xl mx-auto">
             Have a project in mind or want to discuss a potential collaboration?
-            I'd love to hear from you and explore how we can create something
+            I&apos;d love to hear from you and explore how we can create something
             amazing.
           </p>
         </motion.div>
@@ -89,7 +89,7 @@ export default function Contact() {
               </h3>
               <p className="text-sm text-muted-foreground mb-8">
                 Feel free to reach out through any of the following channels.
-                I'm always open to discussing new projects, creative ideas, or
+                I&apos;m always open to discussing new projects, creative ideas, or
                 opportunities to be part of your vision.
               </p>
 

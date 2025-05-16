@@ -9,8 +9,6 @@ import { Button } from "@/components/ui/button"
 import SearchBlog from "@/components/search-blog"
 import { AllBlogPosts } from "@/lib/constants"
 
-
-
 export default function Blog() {
   const [blogPosts, setBlogPosts] = useState(AllBlogPosts.slice(0, 3))
   const [showAll, setShowAll] = useState(false)
@@ -38,8 +36,8 @@ export default function Blog() {
   }
 
   return (
-    <section id="blog" className="py-16 md:py-24">
-      <div className="section-container">
+    <section id="blog" className="py-8">
+      <div className="">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
@@ -53,16 +51,16 @@ export default function Blog() {
 
         <SearchBlog onSearch={handleSearch} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {blogPosts.length > 0 ? (
-            blogPosts.map((post: any, index: any) => (
+            blogPosts.map((post, index) => (
               <motion.article
                 key={post.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * index }}
                 whileHover={{ y: -5 }}
-                className="bg-card rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+                className="bg-muted/30 border rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
               >
                 <Link href={`/blog/${post.slug}`} className="block group">
                   <div className="relative h-48">
@@ -94,7 +92,7 @@ export default function Blog() {
                     <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">{post.title}</h3>
                     <p className="text-muted-foreground mb-4">{post.excerpt}</p>
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {post.tags.map((tag: string) => (
+                      {post.tags.map((tag) => (
                         <motion.span
                           key={tag}
                           whileHover={{ scale: 1.05 }}

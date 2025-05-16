@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useAnimation, AnimatePresence } from "framer-motion";
+import { motion, useAnimation, AnimatePresence } from "motion/react";
 import { Download, ChevronDown, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Name from "./name";
@@ -32,20 +32,20 @@ export default function Hero() {
       setCurrentPosition((prev) => (prev + 1) % positions.length);
     }, 3000);
 
-    // Pulse animation for the scroll indicator
+    return () => clearInterval(interval);
+  }, [positions.length]);
+
+  // Pulse animation for the scroll indicator
+  useEffect(() => {
     const pulseAnimation = async () => {
-      while (true) {
-        await controls.start({
-          y: [0, 10, 0],
-          transition: { duration: 1.5, repeat: Infinity, repeatType: "loop" },
-        });
-      }
+      await controls.start({
+        y: [0, 10, 0],
+        transition: { duration: 1.5, repeat: Infinity, repeatType: "loop" },
+      });
     };
 
     pulseAnimation();
-
-    return () => clearInterval(interval);
-  }, []);
+  }, [controls]);
 
   // Floating animation for profile image
   useEffect(() => {
@@ -76,24 +76,24 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col justify-center pt-4 pb-16"
+      className="relative min-h-[calc(100vh-4rem)] flex flex-col justify-center pt-4 pb-16 px-4 sm:px-6 lg:px-8"
     >
-      <div className="section-container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="flex flex-col items-start space-y-8"
+            className="flex flex-col items-start space-y-6 sm:space-y-8"
           >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
-              className="px-4 py-2 bg-primary/10 rounded-full text-primary font-medium"
+              className="px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-sm sm:text-base"
             >
               <span className="inline-block animate-pulse mr-2">👋</span> Hello,
-              I'm
+              I&apos;m
             </motion.div>
 
             <div>
@@ -101,11 +101,11 @@ export default function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
-                className="mb-8"
+                className="mb-6 sm:mb-8"
               >
                 <Name isHero={true} />
               </motion.div>
-              <div className="h-12 overflow-hidden">
+              <div className="h-10 sm:h-12 overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.p
                     key={currentPosition}
@@ -113,7 +113,7 @@ export default function Hero() {
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -30, opacity: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="text-xl md:text-2xl text-muted-foreground"
+                    className="text-lg sm:text-xl md:text-2xl text-muted-foreground"
                   >
                     {positions[currentPosition]}
                   </motion.p>
@@ -122,7 +122,7 @@ export default function Hero() {
             </div>
 
             <motion.p
-              className="text-muted-foreground max-w-lg text-lg"
+              className="text-muted-foreground max-w-lg text-base sm:text-lg"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.7 }}
@@ -134,18 +134,18 @@ export default function Hero() {
             </motion.p>
 
             <motion.div
-              className="flex flex-wrap gap-4"
+              className="flex flex-wrap gap-3 sm:gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.1, duration: 0.7 }}
             >
               <Button
                 size="lg"
-                className="group relative overflow-hidden"
+                className="group relative overflow-hidden w-full sm:w-auto"
                 asChild
               >
                 <Link href="#contact">
-                  <span className="relative z-10 flex items-center">
+                  <span className="relative z-10 flex items-center justify-center">
                     <Mail className="mr-2 h-4 w-4" />
                     Get in Touch
                   </span>
@@ -156,11 +156,11 @@ export default function Hero() {
               <Button
                 variant="outline"
                 size="lg"
-                className="group relative overflow-hidden"
+                className="group relative overflow-hidden w-full sm:w-auto"
                 asChild
               >
                 <a href="/resume.pdf" download>
-                  <span className="relative z-10 flex items-center">
+                  <span className="relative z-10 flex items-center justify-center">
                     <Download className="mr-2 h-4 w-4 transition-transform group-hover:translate-y-1 duration-300" />
                     Download Resume
                   </span>
@@ -178,10 +178,10 @@ export default function Hero() {
               isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
             }
             transition={{ duration: 0.7, delay: 0.7 }}
-            className="relative mx-auto lg:ml-auto"
+            className="relative mx-auto lg:ml-auto mt-8 lg:mt-0"
           >
             <motion.div
-              className="relative w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl"
+              className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl"
               animate={imageControls}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-purple-500/30 z-10 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
@@ -195,24 +195,24 @@ export default function Hero() {
             </motion.div>
 
             <motion.div
-              className="absolute -bottom-4 -right-4 bg-background rounded-lg shadow-lg p-4 border border-border"
+              className="absolute -bottom-4 -right-4 bg-background rounded-lg shadow-lg p-3 sm:p-4 border border-border"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <p className="font-medium flex items-center">
-                <span className="inline-block w-3 h-3 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+              <p className="font-medium flex items-center text-sm sm:text-base">
+                <span className="inline-block w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                 5+ Years Experience
               </p>
             </motion.div>
 
             <motion.div
-              className="absolute -top-2 -left-2 bg-background rounded-lg shadow-lg p-3 border border-border"
+              className="absolute -top-2 -left-2 bg-background rounded-lg shadow-lg p-2 sm:p-3 border border-border"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.2, duration: 0.5 }}
               whileHover={{ scale: 1.05 }}
             >
-              <p className="font-medium text-sm flex items-center">
+              <p className="font-medium text-xs sm:text-sm flex items-center">
                 Available for work
               </p>
             </motion.div>
@@ -223,16 +223,16 @@ export default function Hero() {
       {/* Scroll indicator */}
       <motion.div
         ref={scrollRef}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer"
+        className="absolute bottom-6 sm:bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer"
         animate={controls}
         onClick={scrollToNext}
         whileHover={{ scale: 1.1 }}
       >
         <div className="flex flex-col items-center">
-          <span className="text-sm text-muted-foreground mb-2">
+          <span className="text-xs sm:text-sm text-muted-foreground mb-2">
             Scroll Down
           </span>
-          <ChevronDown className="h-6 w-6 text-primary" />
+          <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
         </div>
       </motion.div>
     </section>

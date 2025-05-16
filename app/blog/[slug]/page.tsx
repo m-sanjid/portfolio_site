@@ -1,28 +1,22 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   Calendar,
   Clock,
   ChevronLeft,
-  Bookmark,
-  BookmarkCheck,
   Eye,
-  MessageSquare,
-  ThumbsUp,
   Tags,
 } from "lucide-react";
 import { BlogPosts } from "@/lib/constants";
+import BlogInteractiveActions from "@/components/blog-interactive-action";
 
-export default function BlogDetailPage({
-  slug = "building-scalable-web-applications",
-}) {
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [likesCount, setLikesCount] = useState(0);
+export async function generateStaticParams() {
+  return BlogPosts.map((post) => ({ slug: post.slug }));
+}
 
-  // Find the post by slug
+//eslint-disable-next-line
+export default function BlogDetailPage(props: any) {
+  const { slug } = props.params;
   const post = BlogPosts.find((p) => p.slug === slug);
 
   const relatedPosts = post?.relatedPosts
@@ -37,7 +31,7 @@ export default function BlogDetailPage({
         <div className="text-center">
           <h1 className="text-3xl font-bold mb-4">Post Not Found</h1>
           <p className="mb-6">
-            The blog post you're looking for doesn't exist.
+            The blog post you&apos;re looking for doesn&apos;t exist.
           </p>
           <Link href="/blog">
             <button className="px-4 py-2 bg-primary text-secondary rounded-md hover:bg-primary/80">
@@ -47,11 +41,6 @@ export default function BlogDetailPage({
         </div>
       </div>
     );
-  }
-
-  // For the demo, pre-set the likes count
-  if (likesCount === 0 && post.likes) {
-    setLikesCount(post.likes);
   }
 
   return (
@@ -133,45 +122,11 @@ export default function BlogDetailPage({
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
-          {/* Action bar */}
-          <div className="border-t border-b py-6 my-8 flex justify-between items-center">
-            <div className="flex items-center gap-6">
-              <button
-                className="flex items-center gap-2 hover:text-primary dark:hover:text-primary/80 transition-colors"
-                onClick={() => setLikesCount((prev) => prev + 1)}
-              >
-                <ThumbsUp
-                  className={`h-5 w-5 ${
-                    likesCount > post.likes
-                      ? "fill-primary text-primary dark:fill-primary dark:text-primary"
-                      : ""
-                  }`}
-                />
-                <span>{likesCount}</span>
-              </button>
-
-              <button className="flex items-center gap-2 hover:text-primary dark:hover:text-primary/80 transition-colors">
-                <MessageSquare className="h-5 w-5" />
-                <span>{post.comments}</span>
-              </button>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <button
-                className="flex items-center gap-2 hover:text-primary dark:hover:text-primary/80 transition-colors"
-                onClick={() => setIsBookmarked(!isBookmarked)}
-              >
-                {isBookmarked ? (
-                  <BookmarkCheck className="h-5 w-5 fill-primary text-primary dark:fill-primary dark:text-primary" />
-                ) : (
-                  <Bookmark className="h-5 w-5" />
-                )}
-                <span className="sr-only md:not-sr-only">
-                  {isBookmarked ? "Bookmarked" : "Bookmark"}
-                </span>
-              </button>
-            </div>
-          </div>
+          {/* Action bar - Client component */}
+          <BlogInteractiveActions
+            initialLikes={post.likes || 0}
+            commentCount={post.comments || 0}
+          />
 
           {/* Related posts */}
           {relatedPosts.length > 0 && (

@@ -45,7 +45,7 @@ export default function About() {
 
   return (
     <section id="about" className="pb-20">
-      <div className="section-container space-y-16">
+      <div className="space-y-16">
         {/* Heading */}
         <motion.div
           ref={ref}

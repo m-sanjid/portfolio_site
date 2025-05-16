@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "motion/react";
 import SkillFilter from "@/components/skill-filter";
 
 import {
@@ -112,19 +112,19 @@ export default function Skills() {
   };
 
   return (
-    <section id="skills" className="py-8 dark:bg-[#0A0A0A]">
-      <div className="section-container">
+    <section id="skills" className="py-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
-          <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80 mb-4">
+          <h2 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80 mb-3 sm:mb-4">
             My Skills
           </h2>
-          <p className="text-muted-foreground">
+          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
             A comprehensive overview of my technical skills and expertise.
           </p>
         </motion.div>
@@ -132,7 +132,7 @@ export default function Skills() {
         <SkillFilter onFilter={handleFilter} />
 
         {skillCategories.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {skillCategories.map((category, index) => (
               <motion.div
                 key={category.name}
@@ -143,11 +143,11 @@ export default function Skills() {
                 transition={{ duration: 0.5, delay: 0.1 * index }}
                 className="group relative"
               >
-                <div className="bg-accent dark:bg-[#111111] z-10 rounded-lg p-6 border h-full transition-all duration-300">
-                  <h3 className="text-xl font-semibold text-primary dark:text-primary/80 mb-6 group-hover:text-muted-foreground transition-colors duration-300">
+                <div className="bg-accent dark:bg-[#111111] z-10 rounded-lg p-4 sm:p-6 border h-full transition-all duration-300">
+                  <h3 className="text-lg sm:text-xl font-semibold text-primary dark:text-primary/80 mb-4 sm:mb-6 group-hover:text-muted-foreground transition-colors duration-300">
                     {category.name}
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     {category.skills.map((skill, skillIndex) => (
                       <motion.div
                         key={skill.name}
@@ -158,10 +158,12 @@ export default function Skills() {
                           delay: 0.1 * index + 0.05 * skillIndex,
                         }}
                         className="group/skill"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                       >
-                        <div className="bg-primary/5 dark:bg-[#1A1A1A] rounded-lg p-4 border transition-all duration-300">
-                          <div className=" flex items-center justify-between mb-2">
-                            <span className="font-medium text-primary dark:text-primary/80 group-hover/skill:text-muted-foreground transition-colors duration-300">
+                        <div className="bg-primary/5 dark:bg-[#1A1A1A] rounded-lg p-3 sm:p-4 border transition-all duration-300">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="font-medium text-sm sm:text-base text-primary dark:text-primary/80 group-hover/skill:text-muted-foreground transition-colors duration-300">
                               {skill.name}
                             </span>
                             <span className="group-hover/skill:translate-x-2 transition-all duration-300">
@@ -182,7 +184,7 @@ export default function Skills() {
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             className="text-center py-12"
           >
-            <p className="text-gray-400">
+            <p className="text-sm sm:text-base text-muted-foreground">
               No skills found matching your search criteria.
             </p>
           </motion.div>

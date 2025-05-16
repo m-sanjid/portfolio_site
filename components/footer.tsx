@@ -1,53 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import {
-  IconBrandGithub,
-  IconBrandLinkedin,
-  IconBrandX,
-} from "@tabler/icons-react";
 import { useState } from "react";
 import { motion } from "motion/react";
 import Name from "./name";
-
-const socialLinks = [
-  {
-    href: "https://github.com/m_sanjid",
-    icon: <IconBrandGithub className="h-5 w-5" />,
-  },
-  {
-    href: "https://linkedin.com/in/muhammedsanjid1",
-    icon: <IconBrandLinkedin className="h-5 w-5" />,
-  },
-  {
-    href: "https://x.com/dev_sanjid",
-    icon: <IconBrandX className="h-5 w-5" />,
-  },
-];
+import SocialShare from "./social-share";
 
 const footerLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
   { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export default function Footer() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
-    <footer className="bg-muted/30 pt-6 px-6 md:pt-8 md:px-8 border border-dashed">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-8 bg-accent dark:bg-[#111111] rounded-t-[20px]">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-2">
+    <footer className="bg-muted/30 pt-6 px-2 mx-auto md:pt-8 md:px-8 border border-dashed">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-8 bg-accent dark:bg-[#111111] rounded-t-[20px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="col-span-1 sm:col-span-2">
             <Name isMain={true} />
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-4 text-sm sm:text-base text-muted-foreground max-w-md">
               Building elegant solutions to complex problems with clean,
               efficient code.
             </p>
           </div>
           <div className="col-span-1">
-            <h3 className="font-semibold text-lg mb-4 text-foreground">
+            <h3 className="font-semibold text-base sm:text-lg mb-4 text-foreground">
               Quick Links
             </h3>
             <ul
@@ -58,35 +39,36 @@ export default function Footer() {
                 <li onMouseEnter={() => setHoveredIndex(index)} key={index}>
                   <Link
                     href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-sm flex items-center"
+                    className="text-sm sm:text-base text-muted-foreground hover:text-foreground transition-all duration-200 ease-in-out flex items-center"
                   >
                     {hoveredIndex === index && (
                       <motion.span
-                        className="mr-1 h-4 rounded-r-lg bg-black w-1 text-primary"
+                        className="mr-1 h-3 sm:h-4 rounded-r-lg bg-black dark:bg-white w-1 text-primary"
                         layoutId="arrow"
                       ></motion.span>
                     )}
-                    {link.label}
+                    <motion.span
+                      className={`transition-all duration-200 ease-in-out ${
+                        hoveredIndex === index ? "translate-x-1" : ""
+                      }`}
+                      whileHover={{ x: 5 }}
+                    >
+                      {link.label}
+                    </motion.span>
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
           <div className="col-span-1">
-            <h3 className="font-semibold text-lg mb-4 text-foreground">
+            <h3 className="font-semibold text-base sm:text-lg mb-4 text-foreground">
               Connect
             </h3>
-            <div className="flex space-x-4">
-              {socialLinks.map((link, index) => (
-                <Link key={index} href={link.href}>
-                  {link.icon}
-                </Link>
-              ))}
-            </div>
+            <SocialShare />
           </div>
         </div>
-        <div className="mt-8 py-8 border-t">
-          <p className="text-center text-muted-foreground">
+        <div className="mt-8 py-6 sm:py-8 border-t">
+          <p className="text-center text-sm sm:text-base text-muted-foreground">
             © {new Date().getFullYear()} <Name />. All rights reserved.
           </p>
         </div>
